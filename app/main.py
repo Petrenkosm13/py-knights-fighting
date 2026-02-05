@@ -5,17 +5,16 @@ from app.battle.engine import fight
 
 
 def battle(knights_config: Dict) -> Dict[str, int]:
-    lancelot = Knight(knights_config["lancelot"])
-    mordred = Knight(knights_config["mordred"])
-    arthur = Knight(knights_config["arthur"])
-    red_knight = Knight(knights_config["red_knight"])
+    knights: Dict[str, Knight] = {
+        key: Knight(config)
+        for key, config in knights_config.items()
+    }
 
-    fight(lancelot, mordred)
-    fight(arthur, red_knight)
+    # predefined battles
+    fight(knights["lancelot"], knights["mordred"])
+    fight(knights["arthur"], knights["red_knight"])
 
     return {
-        lancelot.name: lancelot.hp,
-        arthur.name: arthur.hp,
-        mordred.name: mordred.hp,
-        red_knight.name: red_knight.hp,
+        knight.name: knight.hp
+        for knight in knights.values()
     }
